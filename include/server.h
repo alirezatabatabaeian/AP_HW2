@@ -5,8 +5,8 @@
 #include <iostream>
 #include <map>
 #include <memory>
-#include <string>
 #include <stdexcept>
+#include <string>
 
 class Client;
 
@@ -15,7 +15,7 @@ public:
     Server();
     std::shared_ptr<Client> add_client(std::string id);
     std::shared_ptr<Client> get_client(std::string id);
-    double get_wallet(std::string id);
+    double get_wallet(std::string id) const;
     bool parse_trx(std::string trx, std::string sender, std::string receiver, double value);
     bool add_pending_trx(std::string trx, std::string signature);
     size_t mine();

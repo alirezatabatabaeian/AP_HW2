@@ -10,3 +10,9 @@ std::string Client::get_id()
 {
     return id;
 }
+
+double Client::get_wallet()
+{
+    return server->get_wallet(id);
+}
+
