@@ -1,13 +1,13 @@
 #ifndef CLIENT_H
 #define CLIENT_H
 
+#include "crypto.h"
 #include "server.h"
 #include <iostream>
 #include <map>
 #include <memory>
-#include <stdexcept>
-#include <string>
 #include <random>
+#include <stdexcept>
 #include <string>
 
 class Server;

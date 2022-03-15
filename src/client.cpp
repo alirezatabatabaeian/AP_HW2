@@ -16,3 +16,9 @@ double Client::get_wallet()
     return server->get_wallet(id);
 }
 
+std::string Client::get_publickey()
+{
+    std::string public_key {}, private_key {};
+    crypto::generate_key(public_key, private_key);
+    return public_key;
+}

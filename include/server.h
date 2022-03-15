@@ -2,12 +2,12 @@
 #define SERVER_H
 
 #include "client.h"
+#include "crypto.h"
 #include <iostream>
 #include <map>
 #include <memory>
-#include <stdexcept>
-#include <string>
 #include <random>
+#include <stdexcept>
 #include <string>
 
 class Client;
