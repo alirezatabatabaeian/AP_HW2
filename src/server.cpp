@@ -9,7 +9,7 @@ std::shared_ptr<Client> Server::add_client(std::string _id)
             for (size_t i {}; i < 4; i++) {
                 std::random_device random_device; // define random generator
                 std::mt19937 engine { random_device() };
-                std::uniform_real_distribution<double> dist(0,9.99);
+                std::uniform_real_distribution<double> dist(0, 9.99);
                 _id = _id + std::to_string(static_cast<int>(dist(engine)));
             }
         }
@@ -20,7 +20,7 @@ std::shared_ptr<Client> Server::add_client(std::string _id)
     return temp2;
 }
 
-std::shared_ptr<Client> Server::get_client(std::string id)
+std::shared_ptr<Client> Server::get_client(std::string id) const
 {
     for (auto x : clients) {
         if (x.first->get_id() == id) {
@@ -28,7 +28,8 @@ std::shared_ptr<Client> Server::get_client(std::string id)
         }
     }
 
-    throw std::logic_error("There is no such id");
+    // throw std::logic_error("There is no such id");
+    return nullptr;
 }
 
 double Server::get_wallet(std::string id) const
