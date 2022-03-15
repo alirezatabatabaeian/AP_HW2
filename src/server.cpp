@@ -10,3 +10,13 @@ std::shared_ptr<Client> Server::add_client(std::string _id)
     return temp2;
 }
 
+std::shared_ptr<Client> Server::get_client(std::string id)
+{
+    for (auto x : clients) {
+        if (x.first->get_id() == id) {
+            return x.first;
+        }
+    }
+
+    throw std::logic_error("There is no such id");
+}
