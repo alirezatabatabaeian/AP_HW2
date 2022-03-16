@@ -42,20 +42,54 @@ double Server::get_wallet(std::string id) const
     throw std::logic_error("There is no such id");
 }
 
-/*void show_wallets(const Server& server)
+bool Server::parse_trx(std::string trx, std::string& sender, std::string& receiver, double& value)
 {
-    std::cout << std::string(20, '*') << std::endl;
-    for (const auto& client : server.clients)
-        std::cout << client.first->get_id() << " : " << client.second << std::endl;
-    std::cout << std::string(20, '*') << std::endl;
-}*/
-
-bool Server::parse_trx(std::string trx, std::string sender, std::string receiver, double value)
-{
-    std::string T{};
+    std::string T;
     std::stringstream X(trx);
-    while (std::getline(X, T, '-')) {
-        std::cout << T << std::endl;
+    size_t i {};
+    while (getline(X, T, '-')) {
+        i++;
     }
-    return 0;
+
+    if (i == 3) {
+        std::string T;
+        std::stringstream X(trx);
+        for (size_t i {}; i < 3; i++) {
+            std::getline(X, T, '-');
+            if (i == 0) {
+                sender = T;
+            } else if (i == 1) {
+                receiver = T;
+            } else {
+                value = std::stod(T);
+            }
+        }
+        return 1;
+    } else {
+        throw std::runtime_error("Runtime error occurred");
+    }
+}
+
+bool Server::add_pending_trx(std::string trx, std::string signature) const
+{
+    std::string sender {}, receiver {};
+    double value {};
+    Server::parse_trx(trx, sender, receiver, value);
+
+    std::shared_ptr<Client> sender_ptr { Server::get_client(sender) };
+    std::shared_ptr<Client> receiver_ptr { Server::get_client(receiver) };
+
+    if (sender_ptr == nullptr) {
+        return 0;
+    } else if (receiver_ptr == nullptr) {
+        return 0;
+    } else if (sender_ptr->get_wallet() < value) {
+        return 0;
+    } else if (crypto::verifySignature(sender_ptr->get_publickey(), trx, signature) == 0) {
+        return 0;
+    }
+
+    pending_trxs.push_back(trx);
+
+    return 1;
 }
