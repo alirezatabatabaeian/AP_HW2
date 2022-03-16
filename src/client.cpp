@@ -38,3 +38,11 @@ bool Client::transfer_money(std::string receiver, double value)
     bool valid_or_invalid { server->add_pending_trx(trx, Client::sign(trx)) };
     return valid_or_invalid;
 }
+
+size_t Client::generate_nonce()
+{
+    std::random_device random_device; // define random generator
+    std::mt19937 engine { random_device() };
+    std::uniform_real_distribution<double> dist(1, 999999.99);
+    return static_cast<size_t>(dist(engine));
+}

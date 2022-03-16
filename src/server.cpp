@@ -93,3 +93,47 @@ bool Server::add_pending_trx(std::string trx, std::string signature) const
 
     return 1;
 }
+
+size_t Server::mine()
+{
+    std::string all_trxs {};
+    size_t nonce {};
+    std::string all_trxs_nonce {};
+    bool if_mined {};
+
+    for (auto one_trx : pending_trxs) {
+        all_trxs += one_trx;
+    }
+
+    while (if_mined == 0) {
+        for (auto trx : pending_trxs) {
+            std::string sender {};
+            std::string receiver {};
+            double value {};
+            Server::parse_trx(trx, sender, receiver, value);
+            std::shared_ptr<Client> miner { get_client(sender) };
+            nonce = miner->generate_nonce();
+            all_trxs_nonce = all_trxs + std::to_string(nonce);
+            std::string hash { crypto::sha256(all_trxs_nonce) };
+            if (hash.substr(0, 10).find("000") != std::string::npos) {
+                if_mined = 1;
+                clients[miner] += 6.25;
+                break;
+            }
+        }
+    }
+
+    for (auto trx : pending_trxs) {
+        std::string sender;
+        std::string receiver;
+        double value;
+        parse_trx(trx, sender, receiver, value);
+        std::shared_ptr<Client> sender_ptr { get_client(sender) };
+        std::shared_ptr<Client> receiver_ptr { get_client(receiver) };
+        clients[sender_ptr] -= value;
+        clients[receiver_ptr] += value;
+    }
+
+    pending_trxs = {};
+    return nonce;
+}
