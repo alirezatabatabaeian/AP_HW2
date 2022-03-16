@@ -106,18 +106,21 @@ size_t Server::mine()
     }
 
     while (if_mined == 0) {
-        for (auto trx : pending_trxs) {
-            std::string sender {};
-            std::string receiver {};
-            double value {};
-            Server::parse_trx(trx, sender, receiver, value);
-            std::shared_ptr<Client> miner { get_client(sender) };
-            nonce = miner->generate_nonce();
+        for (auto miner : clients) { //
+            // for (auto trx : pending_trxs) {
+            //  std::string sender {};
+            //  std::string receiver {};
+            //  double value {};
+            //  Server::parse_trx(trx, sender, receiver, value);
+            //  std::shared_ptr<Client> miner { get_client(sender) };
+            //  nonce = miner->generate_nonce();
+            nonce = miner.first->generate_nonce(); //
             all_trxs_nonce = all_trxs + std::to_string(nonce);
             std::string hash { crypto::sha256(all_trxs_nonce) };
             if (hash.substr(0, 10).find("000") != std::string::npos) {
                 if_mined = 1;
-                clients[miner] += 6.25;
+                // clients[miner] += 6.25;
+                clients[miner.first] += 6.25; //
                 break;
             }
         }
