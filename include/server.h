@@ -32,6 +32,6 @@ private:
 
 // void show_wallets(const Server& server);
 
-inline std::vector<std::string> pending_trxs;
+inline std::vector<std::string> pending_trxs {}; // define pending_trxs
 
 #endif // SERVER_H

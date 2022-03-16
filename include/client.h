@@ -33,7 +33,7 @@ private:
     std::string private_key;
 };
 
-static void show_wallets(const Server& server)
+static void show_wallets(const Server& server) // show wallet
 {
     std::cout << std::string(20, '*') << std::endl;
     std::map<std::shared_ptr<Client>, double>* temp { (std::map<std::shared_ptr<Client>, double>*)&server };
