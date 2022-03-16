@@ -3,12 +3,15 @@
 
 #include "client.h"
 #include "crypto.h"
+#include <cstring>
 #include <iostream>
 #include <map>
 #include <memory>
 #include <random>
+#include <sstream>
 #include <stdexcept>
 #include <string>
+#include <vector>
 
 class Client;
 
@@ -25,5 +28,7 @@ public:
 private:
     std::map<std::shared_ptr<Client>, double> clients;
 };
+
+// void show_wallets(const Server& server);
 
 #endif // SERVER_H

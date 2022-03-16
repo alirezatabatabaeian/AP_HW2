@@ -28,7 +28,6 @@ std::shared_ptr<Client> Server::get_client(std::string id) const
         }
     }
 
-    // throw std::logic_error("There is no such id");
     return nullptr;
 }
 
@@ -41,4 +40,22 @@ double Server::get_wallet(std::string id) const
     }
 
     throw std::logic_error("There is no such id");
+}
+
+/*void show_wallets(const Server& server)
+{
+    std::cout << std::string(20, '*') << std::endl;
+    for (const auto& client : server.clients)
+        std::cout << client.first->get_id() << " : " << client.second << std::endl;
+    std::cout << std::string(20, '*') << std::endl;
+}*/
+
+bool Server::parse_trx(std::string trx, std::string sender, std::string receiver, double value)
+{
+    std::string T{};
+    std::stringstream X(trx);
+    while (std::getline(X, T, '-')) {
+        std::cout << T << std::endl;
+    }
+    return 0;
 }
